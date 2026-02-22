@@ -1,0 +1,5 @@
+opencv-python==4.8.1.78
+setuptools
+numpy<2
+openai-whisper
+pyaudio
