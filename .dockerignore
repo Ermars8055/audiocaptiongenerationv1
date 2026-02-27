@@ -1,0 +1,12 @@
+venv
+.git
+.gitignore
+*.pyc
+__pycache__
+*.tar.gz
+.DS_Store
+*.tex
+*.md
+captions_*.txt
+video_*.mp4
+audio_*.wav

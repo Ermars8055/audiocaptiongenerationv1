@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  video-captioner:
+    build: .
+    container_name: video-captioner
+
+    # Device access for camera and microphone
+    devices:
+      - /dev/video0:/dev/video0      # Webcam
+      - /dev/snd:/dev/snd            # Audio devices
+
+    # Volume for input/output files
+    volumes:
+      - ./output:/app/output
+      - /etc/asound.conf:/etc/asound.conf:ro
+
+    # Keep container running and interactive
+    stdin_open: true
+    tty: true
+
+    # Privilege to access hardware devices
+    privileged: false
+
+    # User permission for audio
+    user: root
+
+    environment:
+      - PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native
+
+    # Restart policy
+    restart: unless-stopped

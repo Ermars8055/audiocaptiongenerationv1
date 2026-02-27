@@ -141,17 +141,21 @@ def main():
     print("🎬 Video to Captions")
     print("=" * 50)
 
+    # Create output directory if it doesn't exist
+    output_dir = Path("output")
+    output_dir.mkdir(exist_ok=True)
+
     # Create timestamp for unique filenames
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    video_file = f"video_{timestamp}.mp4"
-    audio_file = f"audio_{timestamp}.wav"
-    captions_file = f"captions_{timestamp}.txt"
+    video_file = output_dir / f"video_{timestamp}.mp4"
+    audio_file = output_dir / f"audio_{timestamp}.wav"
+    captions_file = output_dir / f"captions_{timestamp}.txt"
 
     # Record video and audio in parallel
     print("\n🎬 Starting recording (video + audio)...\n")
 
-    video_thread = threading.Thread(target=record_video, args=(7, video_file))
-    audio_thread = threading.Thread(target=record_audio, args=(7, audio_file))
+    video_thread = threading.Thread(target=record_video, args=(7, str(video_file)))
+    audio_thread = threading.Thread(target=record_audio, args=(7, str(audio_file)))
 
     video_thread.start()
     audio_thread.start()
@@ -160,7 +164,7 @@ def main():
     audio_thread.join()
 
     # Step 2: Generate captions
-    if not generate_captions(audio_file, captions_file):
+    if not generate_captions(str(audio_file), str(captions_file)):
         return
 
     print("=" * 50)
